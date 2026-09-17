@@ -45,11 +45,11 @@ Doplňte do níže uvedené tabulky význam zkratek, základní princip a typick
 | Zkratka / Pojem          | Co zkratka znamená (česky/anglicky) | Základní charakteristika (architektura, kde běží program)                                 | Typický zástupce                  | Příklad nasazení                           |
 | :----------------------- | :---------------------------------- | :---------------------------------------------------------------------------------------- | :-------------------------------- | ------------------------------------------ |
 | **MCU**                  | Microcontroller Unit / Mikrokontrolér (jednočipový počítač) | Integrovaný čip (CPU + RAM + Flash na jednom křemíku), deterministický běh bez OS / RTOS  | např. ESP32, PIC16LF1xxx, RP2040  |             Chytré hodinky, senzory, domácí spotřebiče, hračky       |
-| **MPU**                  |   Microprocessor Unit / Mikroprocesor | Samostatný procesor vyžadující externí RAM a úložiště, často běží plnohodnotný OS (Linux) |       Raspberry Pi 4/5, BCM2711, i.MX6                            |                                            |
+| **MPU**                  |   Microprocessor Unit / Mikroprocesor | Samostatný procesor vyžadující externí RAM a úložiště, často běží plnohodnotný OS (Linux) |       Raspberry Pi 4/5, BCM2711, i.MX6                            |                       Chytré domácí rozbočovače (huby), multimediální centra, složitější IoT brány                     |
 | **Embedded**             | Vestavěný systém (Embedded System) |               Vyhrazený počítačový systém navržený pro konkrétní řídicí funkci uvnitř většího zařízení                                                                            | Embedded PLC, embedded PC         | Bílá technika, bankomaty, plynové kotle... |
-| **PLC**                  |      Programmable Logic Controller / Programovatelný logický automat   | Průmyslový automat pro cyklické řízení procesů, vysoká odolnost, modulární/kompaktní      |                                   |                                            |
-| **iPC**                  |    Industrial PC / Průmyslové PC    |                                                                                           |                                   |                                            |
-| **Programovatelné relé** |     Programovatelné relé / Smart Relay (nebo Programmable Relay / Logic Module) | Zjednodušené malé PLC pro méně náročné úlohy (nahrazuje časovače a relé)                  | např. Siemens LOGO!, Eaton easyE4 |                                            |
+| **PLC**                  |      Programmable Logic Controller / Programovatelný logický automat   | Průmyslový automat pro cyklické řízení procesů, vysoká odolnost, modulární/kompaktní      |     Siemens S7-1200/1500, Allen-Bradley Micro800, Beckhoff                              |     Řízení výrobních linek, automatizace budov, čističky odpadních vod                                       |
+| **iPC**                  |    Industrial PC / Průmyslové PC    |                       Počítač průmyslové konstrukce (odolnost vůči teplotám, vibracím), běžící na x86/ARM s Windows/Linux OS                                                                    |           Advantech, Beckhoff Industrial PC, Siemens Simatic IPC                        |      Vizualizace výroby (SCADA), počítačové vidění, řízení složitých robota                                      |
+| **Programovatelné relé** |     Programovatelné relé / Smart Relay (nebo Programmable Relay / Logic Module) | Zjednodušené malé PLC pro méně náročné úlohy (nahrazuje časovače a relé)                  | např. Siemens LOGO!, Eaton easyE4 |         Řízení osvětlení, ovládání garážových vrat, malé zavlažovací systémy                                   |
 
 > :key: **Vysvětlení pojmů a odborné zdroje:**
 > - **SoC (System on Chip):** Čip integrující CPU, GPU, paměť i bezdrátové moduly (např. Wi-Fi/BT) na jediném substrátu (např. v telefonech, ESP32).
@@ -70,7 +70,10 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 
 *Vaše odpověď:*
 
-`...`
+### Odpověď: 
+* **Deterministické chování a předvídatelnost:** Jednoduché mikrořadiče a FPGA vykonávají instrukce nebo logiku s přesně definovaným časováním bez nepředvídatelných zpoždění (chybí složitý operační systém, dynamický plánovač úlok či nedeterministická cache paměť).
+* **Jednodušší certifikace a verifikace:** U složitých vícejádrových procesorů je prakticamente nemožné otestovat všechny stavové kombinace. Jednoduché obvody lze formálně dokázat a certifikovat podle přísných bezpečnostních norm (např. *DO-178C* pro letectví, *IEC 61508* pro průmyslovou bezpečnost).
+* **Vysoká spolehlivost a odolnost:** Méně tranzistorů znamená nižší pravděpodobnost hardwarové chyby způsobené např. ionizujícím zářením (*Single Event Upset / SEU*) a výrazně nižší spotřebu i vyzařované teplo.
 
 ---
 
@@ -87,3 +90,42 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
    - Jak se liší konstrukce běžného kancelářského PC od **průmyslového PC (iPC)** (např. z hlediska chlazení, napájení, vibrací a konektorů)?
 
 ---
+
+## 1. Typy pamětí
+
+* **RAM:** **Volatilní** paměť (po odpojení napájení se data smažou). Nabízí extrémně rychlý zápis i čtení. Slouží pro uchování běžných proměnných a výpočtů za chodu.
+* **Flash:** **Nevolatilní** paměť (data zůstávají uchována i bez napájení). Rychlé čtení, ale pomalejší zápis (zapisuje se po celých blocích/sektorech). Slouží k uložení programu (firmwaru).
+* **EEPROM:** **Nevolatilní** paměť. Zápis je pomalejší než u RAM, ale umožňuje přepisovat data po jednotlivých bajtech (na rozdíl od Flash). Slouží k uložení konfiguračních parametrů, kalibrací a nastavení.
+
+---
+
+## 2. Reálný čas a determinismus
+
+* **MCU / PLC:** Běží bez OS (bare-metal) nebo na operačním systému reálného času (**RTOS**). Zaručují **determinismus** — odezva na přerušení (např. reakce na nouzové zastavení do **5 ms**) proběhne vždy v přesně definovaném časovém limitu.
+* **Běžný OS na MPU (např. Raspberry Pi s OS Linux):** Není deterministický. Běžný Linux sdílí čas procesoru mezi mnoha procesy. Naplánování úlohy může být odloženo přípravou vyrovnávací paměti, práci se souborovým systémem nebo službami na pozadí, což znemožňuje garantovat reakční dobu.
+
+---
+
+## 3. Odolnost a IP krytí
+
+### 🔍 Dešifrování označení `IP68`
+* **První číslice (`6`):** Úplná prachotěsnost (ochrana před nebezpečným dotykem drátem a před vniknutím prachu).
+* **Druhá číslice (`8`):** Ochrana proti trvalému ponoření do vody za podmínek určených výroblem/dodavatelem.
+
+---
+
+### ☔ Minimální krytí pro venkovní instalaci pod přístřeškem
+* Pro prostředí pod přístřeškem, kde hrozí **stříkající voda a prach**, je vyžadováno minimálně krytí **`IP54`**:
+  * **`5`** = Částečná ochrana před prachem.
+  * **`4`** = Ochrana před stříkající vodou ze všech směrů.
+
+---
+
+### 💻 Srovnání: Kancelářské PC vs. Průmyslové PC (iPC)
+
+| Parametr | Kancelářské PC | Průmyslové PC (iPC) |
+| :--- | :--- | :--- |
+| **Chlazení** | Aktivní (ventilátory, které nasávají prach a nečistoty) | Pasivní (bezventilátorové, masivní hliníkové chladiče) |
+| **Napájení** | Běžná síťová zásuvka ($230\text{ V}$ AC), interní ATX zdroj | Širokorozsahové stejnosměrné napájení ($12\text{--}24\text{ V}$ DC) s ochranou proti přepětí |
+| **Vibrace** | Nízká odolnost (standardní sloty a konektory) | Vysoká odolnost (pájené komponenty, bezkabelové propojení, SSD) |
+| **Konektory** | Klasické (USB, RJ45 bez zajištění) | Průmyslové konektory se šroubovacím zajištěním (např. M12, uzamykatelné D-Sub) |
