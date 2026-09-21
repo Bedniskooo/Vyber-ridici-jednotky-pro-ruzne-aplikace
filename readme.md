@@ -32,11 +32,12 @@ Výběr řídící jednotky pro různé aplikace
 
 
 ---
+----
 
 ## Úlohy
 
 
-### 1. Základní pojmy a architektury řídicích jednotek
+# 1. Základní pojmy a architektury řídicích jednotek
 
 *Časová dotace: 10–15 minut | Úvodní úloha*
 
@@ -76,8 +77,9 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 * **Vysoká spolehlivost a odolnost:** Méně tranzistorů znamená nižší pravděpodobnost hardwarové chyby způsobené např. ionizujícím zářením (*Single Event Upset / SEU*) a výrazně nižší spotřebu i vyzařované teplo.
 
 ---
+---
 
-### 2. Parametry, paměti a provozní odolnost (IP krytí)
+# 2. Parametry, paměti a provozní odolnost (IP krytí)
 
 
 1. **Typy pamětí:**
@@ -184,9 +186,9 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
   * Odpověď: `Písmeno K označuje ochranu proti vysokotlaké a vysokoteplotní proudící vodě (ostřikování tlakem až 10 MPa při teplotě do 80 °C). Bezpodmínečně se vyžaduje v potravinářském a farmaceutickém průmyslu (a také na vozidlech/zemědělské technice), kde probíhá pravidelné intenzivní čištění a dezinfekce tlakovou vodou.`
 
 ------------------------------------------------------------------
+----
 
-
-### 3. Rozhodovací matice platforem (MCU vs. PLC vs. iPC)
+# 3. Rozhodovací matice platforem (MCU vs. PLC vs. iPC)
 
 
 Jste v pozici nezávislého konzultanta automatizace. Tři různí zákazníci požadují navrhnout optimální kategorii řízení.
