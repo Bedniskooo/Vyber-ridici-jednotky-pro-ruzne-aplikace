@@ -184,7 +184,7 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
   * Odpověď: `Písmeno K označuje ochranu proti vysokotlaké a vysokoteplotní proudící vodě (ostřikování tlakem až 10 MPa při teplotě do 80 °C). Bezpodmínečně se vyžaduje v potravinářském a farmaceutickém průmyslu (a také na vozidlech/zemědělské technice), kde probíhá pravidelné intenzivní čištění a dezinfekce tlakovou vodou.`
 
 ------------------------------------------------------------------
-Zde je kompletně vyplněná úloha včetně rozhodovací matice v jazyce Markdown, graficky i strukturálně zhotovená přesně podle vzoru z vaší předlohy (s dodržením kurzívy, tučného písma, kódových bloků `` a čisté tabulkové struktury):
+
 
 ### 3. Rozhodovací matice platforem (MCU vs. PLC vs. iPC)
 
