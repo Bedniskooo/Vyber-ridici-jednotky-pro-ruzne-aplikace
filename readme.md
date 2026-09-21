@@ -325,4 +325,39 @@ Zde je doplněná bonusová otázka k úloze 5, zpracovaná v čistém formátu 
 * **🌟 Bonusová otázka k úloze 5:** Proč hobby reléové moduly s optočleny určené pro Arduino v průmyslovém rozváděči často shoří nebo způsobí trvalé sepnutí zátěže (tzv. přivaření kontaktů), i když jmenovitý proud relé je 10 A a cívka stykače odebírá jen 0,5 A?
   * Odpověď: `Jmenovitý proud 10 A u hobby relé platí pro čistě odporovou zátěž (kategorie AC-1). Cívka stykače je však silně indukční zátěž (kategorie AC-15), která při spínání a zejména při rozpínání vytváří obrovské indukční napěťové špičky (až tisíce voltů) a při zapnutí vysoký záběrný proud. Tento elektrický oblouk na nekvalitních kontaktech hobby relé roztaví materiál kontaktů a způsobí jejich fyzické přivaření ("spečení") k sobě. Levná hobby relé navíc nemají dostatečné izolační vzdálenosti (air/creepage distance) ani zhášecí členy (RC členy / varistory) pro průmyslová napětí.`
 
+-----
 
+### 6. Rozšiřující inženýrská výzva: TCO a životní cyklus v automatizaci
+
+
+V průmyslové automatizaci nákupní cena řídicí jednotky (CAPEX) často tvoří méně než 15 % celkových nákladů na životní cyklus zařízení (OPEX / TCO).[cite: 7]
+
+Představte si, že management firmy rozhoduje mezi dvěma variantami řízení pro sérii 50 kusů výrobních linek s plánovanou životností 15 let:[cite: 7]
+
+* **Varianta 1 (Nízkonákladová na pořízení):** Využití levných embedded mikrokontrolérových desek s vlastním zákaznickým návrhem plošného spoje (cena HW: 2 500 Kč / kus, vývoj firmwaru v C/C++ od externího programátora bez dokumentace).[cite: 7]
+* **Varianta 2 (Průmyslový standard):** Využití modulárního PLC renomovaného výrobce (Siemens / Rockwell / Schneider) s cenou 22 000 Kč / kus, programováno v normovaném jazyce LAD/ST dle IEC 61131-3.[cite: 7]
+
+---
+
+#### 1. Srovnejte obě varianty v níže uvedené tabulce a uveďte předpokládaná skrytá rizika a náklady v horizontu 10–15 let:[cite: 7]
+
+| Aspekt životního cyklu[cite: 7] | Varianta 1 (Custom Embedded MCU)[cite: 7] | Varianta 2 (Průmyslové PLC)[cite: 7] |
+| :--- | :--- | :--- |
+| **Dostupnost náhradních dílů za 10 let**[cite: 7] | `Kriticky nízká. Po 10 letech budou použité součástky na custom PCB pravděpodobně zastaralé (EOL – End of Life), což vyžaduje kompletní redesign plošného spoje.` | `Garantovaná dlouhodobá dostupnost. Renomovaní výrobci garantují dostupnost náhradních dílů a kompatibilitu 10–20 let od ukončení prodeje.` |
+| **Servisovatelnost podnikovým elektrikářem**[cite: 7] | `Prakticky nemožná. Běžný údržbář bez znalosti C/C++ a bez zdrojových kódů/dokumentace nedokáže diagnostikovat závadu na desce.` | `Snadná a rychlá. Elektrikář zkontroluje stavové LED, připojí diagnostický kabel/software a díky normovanému jazyku (LAD/ST) snadno odhalí chybu.` |
+| **Doba odstávky linky při poruše CPU**[cite: 7] | `Extrémně dlouhá (dny až týdny). Vyžaduje zásah externího vývojáře nebo výrobu nové desky plošných spojů.` | `Minimální (desítky minut až hodiny). Výměna kus za kus na DIN liště, nahrání zálohy programu (z SD karty nebo PC) a spuštění.` |
+| **Cena vývojových nástrojů a licencí IDE**[cite: 7] | `Nízká pořízovací cena IDE (často Open-Source / zdarma), avšak extrémně vysoká cena za vývoj vlastního firmwaru a bez dokumentace.` | `Vyšší cena licencí pro vývojový software (např. TIA Portal), avšak standardizované vývojové prostředí s bezplatnými diagnostickými nástroji.` |
+| **Závěrečné doporučení (kterou variantu vybrat a proč)**[cite: 7] | `Nevhodné pro sérii 50 linek s životností 15 let. Skryté provozní náklady (OPEX) na odstávky a servis několikanásobně převýší úsporu na HW.` | `Doporučená varianta. Vyšší pořizovací cena (CAPEX) je bohatě kompenzována nízkým TCO, spolehlivostí, snadnou údržbou a rychlou opravou.` |
+
+> 🔑 **Vysvětlení pojmů a odborné zdroje:**[cite: 7]
+> * **CAPEX (Capital Expenditure):** Zjednodušeně jde o jednorázové kapitálové výdaje na pořízení samotného zařízení (hardware, licence).[cite: 7]
+> * **OPEX (Operating Expense):** Zjednodušeně jde o průběžné provozní náklady nutné k udržení zařízení v chodu (energie, servis, podpora).[cite: 7]
+> * **TCO (Total Cost of Ownership):** Finanční odhad celkových přímých a nepřímých nákladů spojených s pořízením, provozem, servisem, údržbou a likvidací produktu po celou dobu jeho životnosti. Zjednodušeně je to součet CAPEX + OPEX za celou dobu životnosti zařízení.[cite: 7]
+> * **Vendor Lock-in:** Stav závislosti zákazníka na konkrétním dodavateli produktů nebo služeb, kdy je přechod k jiné platformě spojen s neúměrně vysokými finančními a časovými náklady.[cite: 7]
+
+---
+
+* **🌟 Bonusová otázka k úloze 6:** Co znamená pojem **MTBF (Mean Time Between Failures)** v datasheetech průmyslových řídicích jednotek a jaký vliv má okolní teplota v rozváděči na tuto hodnotu (tzv. Arrhenioovo pravidlo)?[cite: 7]
+  * Odpověď: `MTBF (Střední doba mezi poruchami) vyjadřuje statistickou spolehlivost hardware a udává průměrný čas v hodinách, po který zařízení funguje bez poruchy. Dle Arrhenioova pravidla má okolní teplota na MTBF zásadní vliv – zvýšení provozní teploty uvnitř rozváděče o každých 10 °C nad nominální hodnotu zkracuje životnost elektronických komponent (zejména elektrolytických kondenzátorů) na polovinu (a tím snižuje MTBF na 50 %).`
+
+```
