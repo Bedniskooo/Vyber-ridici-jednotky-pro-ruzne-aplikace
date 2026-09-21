@@ -78,7 +78,7 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 ---
 
 ### 2. Parametry, paměti a provozní odolnost (IP krytí)
-*Časová dotace: max. 15 minut | Úvodní úloha
+
 
 1. **Typy pamětí:**
    - Jaký je zásadní rozdíl mezi pamětí **RAM**, **Flash** a **EEPROM** v mikrokontroléru/PLC z hlediska uchování dat po odpojení napájení a rychlosti zápisu?
@@ -130,7 +130,7 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 | **Vibrace** | Nízká odolnost (standardní sloty a konektory) | Vysoká odolnost (pájené komponenty, bezkabelové propojení, SSD) |
 | **Konektory** | Klasické (USB, RJ45 bez zajištění) | Průmyslové konektory se šroubovacím zajištěním (např. M12, uzamykatelné D-Sub) |
 
-### 2. Parametry, paměti a provozní odolnost (IP krytí)
+
 
 -----------------------------------------------------------------------------------------------------------
 
