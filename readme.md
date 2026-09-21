@@ -282,3 +282,6 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
   * **Teplotní management skříně:** `Pro mrazy (-20 °C): instalace topného tělesa s termostatem do rozváděče (např. Rittal 50–100 W). Pro letní vedra (+45 °C): instalace venkovního rozváděče s dvojitou stěnou / stříškou proti přímému slunci a použií větrací mřížky s filtrem a ventilátorem (případně polovodičového chladicího agregátu / klimatizace), řízeného chladicím termostatem.`
 
 ----------------------------------------------------------------
+
+* **🌟 Bonusová otázka k úloze 4:** Proč se u čerpadel v čistírnách odpadních vod a jímkách striktně upřednostňuje měření hladiny pomocí proudového signálu **4–20 mA** před napěťovým signálem **0–10 V** a proč se do jímky nepoužívá ultrazvukový senzor, pokud v ní vzniká hustá pěna?
+  * Odpověď: Proudová smyčka 4–20 mA je odolná vůči úbytku napětí na dlouhých kabelech a vůči elektromagnetickému rušení z motorů/frekvenčních měničů. Zároveň umožňuje detekci přerušení vodiče (živá nula: hodnota 0 mA = porucha/přetržený kabel). Napěťový signál 0–10 V trpí úbytky napětí a rušením. Ultrazvukový senzor se nepoužívá při vzniku pěny, protože pěna pohlcuje nebo rozptyluje ultrazvukové vlny, což vede ke ztrátě odrazu signálu nebo falešným měřením (senzor změří výšku pěny namísto skutečné hladiny kapaliny).
