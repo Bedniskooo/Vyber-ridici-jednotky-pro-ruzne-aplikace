@@ -221,7 +221,6 @@ Jste v pozici nezávislého konzultanta automatizace. Tři různí zákazníci p
 
 ### 4. Návrh a konfigurace řídicí jednotky pro čerpací stanici
 
-*Časová dotace: 25–30 minut | ⭐ Klasifikovaná inženýrská úloha na známky*
 
 Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení pro obecní přečerpávací stanici odpadních vod.
 
@@ -285,3 +284,38 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
 
 * **🌟 Bonusová otázka k úloze 4:** Proč se u čerpadel v čistírnách odpadních vod a jímkách striktně upřednostňuje měření hladiny pomocí proudového signálu **4–20 mA** před napěťovým signálem **0–10 V** a proč se do jímky nepoužívá ultrazvukový senzor, pokud v ní vzniká hustá pěna?
   * Odpověď: Proudová smyčka 4–20 mA je odolná vůči úbytku napětí na dlouhých kabelech a vůči elektromagnetickému rušení z motorů/frekvenčních měničů. Zároveň umožňuje detekci přerušení vodiče (živá nula: hodnota 0 mA = porucha/přetržený kabel). Napěťový signál 0–10 V trpí úbytky napětí a rušením. Ultrazvukový senzor se nepoužívá při vzniku pěny, protože pěna pohlcuje nebo rozptyluje ultrazvukové vlny, což vede ke ztrátě odrazu signálu nebo falešným měřením (senzor změří výšku pěny namísto skutečné hladiny kapaliny).
+
+--------------------------------------------------------------
+
+
+### 5. Technický audit a oponentura nevhodného návrhu
+
+
+Jako vedoucí inženýr jste převzal projekt po nezkušeném brigádníkovi, který navrhl řízení automatizovaného tvářecího a lisovacího stroje v prašné kovářské dílně následovně:[cite: 6]
+
+* **Řídicí deska:** Běžná vývojová deska Arduino Uno (Rev3) s mikrokontrolérem ATmega328P.[cite: 6]
+* **Pouzdro a umístění:** Plastová krabička vytištěná na 3D tiskárně z materiálu PLA, přišroubovaná přímo na těleso vibrujícího hydraulického lisu.[cite: 6]
+* **Napájení:** 5V USB nabíječka na mobilní telefon zapojená do prodlužovacího kabelu 230 V.[cite: 6]
+* **Spínání zátěže:** 4kanálový hobby reléový modul z čínského e-shopu propojený s Arduinem tenkými nepájenými vodiči (DuPont propojky). Modul přímo spíná 400V ventily hydrauliky.[cite: 6]
+* **Bezpečnost (Safety):** Nouzové stop tlačítko (E-Stop) je zapojeno přímo do digitálního pinu D2 Arduina jako softwarové přerušení (interrupt), které v kódu nastaví výstupy na `LOW`.[cite: 6]
+
+---
+
+#### 1. Zpracujte písemný audit rizik (minimálně 4 fatální technická selhání): Vyplňte protokol o zjištěných vadách a popište konkrétní fyzikální mechanismus, jak daná chyba způsobí havárii stroje či ohrožení lidského života:[cite: 6]
+
+| Oblast auditu[cite: 6] | Zjištěná vada v amatérském návrhu[cite: 6] | Fyzikální mechanismus selhání (proč to selže)[cite: 6] | Následek pro stroj nebo obsluhu[cite: 6] |
+| :--- | :--- | :--- | :--- |
+| **Elektromagnetická kompatibilita (EMC)**[cite: 6] | `Absence optického oddělení, odrušení a průmyslového krytí. Použití hobby relé a spínání 400V ventilů bez odrušovacích členů.` | Napěťové špičky z indukční zátěže hydraulických ventilů a elektromagnetické rušení (EMI) z okolí indukují vysoké napětí na nestíněných vodičích, což způsobí restart MCU nebo zatuhnutí čipu ATmega328P. | `Nekontrolovaný pohyb lisu, možnost svévolného sepnutí ventilů, ztráta kontroly nad strojem a vysoké riziko těžkého úrazu obsluhy.` |
+| **Mechanická a teplotní odolnost**[cite: 6] | PLA plast a montáž na těleso lisu[cite: 6] | `PLA podléhá nízké teplotní deformaci (při ~50–60 °C měkne) a v kombinaci s trvalými silnými vibracemi lisu dojde k popraskání krabičky, uvolnění desky a zkratu o kovové šasi lisu.` | `Destrukce řídicí jednotky, zkrat napájení, možný požár a vnímání stroje bez jakéhokoliv řízení v reálném čase.` |
+| **Konektivita a propojení vodičů**[cite: 6] | DuPont propojovací kabely bez aretace[cite: 6] | `Nezajištěné spony konektorů se působením neustálých vibrací lisu postupně uvolní a vypadnou. Dochází ke kmitání kontaktů (přechodový odpor) a jiskření.` | `Náhodné vypadávání signálů, výpadky řízení ventiů, nečekané spouštění/zastavování lisu a lokální přehřívání/vznícení konektorů.` |
+| **Funkční bezpečnost (Safety)**[cite: 6] | Nouzový stop řešený softwarově v čipu[cite: 6] | `Pokud mikrokontrolér vytuhne (např. vlivem EMC rušení) nebo uvízne v nekonečné smyčce, softwarový interrupt na pinu D2 vůbec neproběhne. Stejně tak relé může zůstat "přivařené" v sepnutém stavu.` | `Stroj nelze tlačítkem E-Stop zastavit. Hrozí fatální až smrtelný úraz obsluhy přimáčknutím lisu bez možnosti nouzového vypnutí.` |
+
+---
+
+#### 2. Návrh profesionálního nápravného řešení:[cite: 6]
+
+* **Návrh certifikovaných průmyslových komponent pro náhradu celku při zachování minimálního rozpočtu:**[cite: 6]
+  * **Náhrada řídicí jednotky:** `Průmyslové programovatelné relé nebo kompaktní PLC s montáží na DIN lištu, s napájením 24 V DC a galvanicky oddělenými vstupy/výstupy v prachotěsném rozváděči IP65 (např. Siemens LOGO! 24CE nebo Eaton easyE4).`[cite: 6]
+  * **Náhrada napájecího zdroje:** `Certifikovaný stabilizovaný průmyslový spínaný zdroj 24 V DC na DIN lištu s ochranou proti přetížení, zkratu a přepětí (např. MEAN WELL řada NDR nebo HDR).`[cite: 6]
+  * **Způsob zapojení bezpečnostního okruhu (Safety): Jak musí být podle norem zapojeno tlačítko Emergency Stop (E-Stop)? Smí být spoléháno pouze na software mikrokontroléru? Zdůvodněte:** `Nesmí se spoléhat pouze na software! Tlačítko E-Stop musí být bezpečnostní (dvoukanálové, bezpečnostní rozpínací kontakty NC) zapojené do hardwarového bezpečnostního relé (Safety Relay, např. Sick, Pilz) nebo bezpečnostního PLC. Toto relé při stisku E-Stopu hardwarově a okamžitě odpojí napájení akčních členů (stykačů/ventilů) bez ohledu na stav jakéhokoliv softwaru či mikrokontroléru.`[cite: 6]
+
