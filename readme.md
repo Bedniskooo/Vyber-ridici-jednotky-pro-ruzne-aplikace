@@ -183,4 +183,32 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 * **🌟 Bonusová otázka k úloze 2:** Co označuje doplňkové písmeno **K** v kódu krytí **IP69K** a v jakém průmyslovém odvětví je toto krytí bezpodmínečně vyžadováno?
   * Odpověď: `Písmeno K označuje ochranu proti vysokotlaké a vysokoteplotní proudící vodě (ostřikování tlakem až 10 MPa při teplotě do 80 °C). Bezpodmínečně se vyžaduje v potravinářském a farmaceutickém průmyslu (a také na vozidlech/zemědělské technice), kde probíhá pravidelné intenzivní čištění a dezinfekce tlakovou vodou.`
 
-```
+------------------------------------------------------------------
+Zde je kompletně vyplněná úloha včetně rozhodovací matice v jazyce Markdown, graficky i strukturálně zhotovená přesně podle vzoru z vaší předlohy (s dodržením kurzívy, tučného písma, kódových bloků `` a čisté tabulkové struktury):
+
+### 3. Rozhodovací matice platforem (MCU vs. PLC vs. iPC)
+
+
+Jste v pozici nezávislého konzultanta automatizace. Tři různí zákazníci požadují navrhnout optimální kategorii řízení.
+
+#### Příklad aplikace (vzorové řešení):
+* **Vzorová aplikace 0 – Automatická vjezdová závora na parkoviště:** Jednoduchý jednoúčelový systém s indukční detekční smyčkou vozidla, bezpečnostní optozávorou, koncovými spínači polohy ramene, motorem závory (vpřed/vzad) a výstražným semaforem (červená/zelená). Požadavek na jednoduchou správu správcem objektu a spolehlivý chod v rozváděči u vjezdu.
+
+#### Popis zadaných aplikací pro studenty:
+* **Aplikace A – Chytrý pokojový termostat (IoT):** Bateriově napájený přístroj měřící teplotu a vlhkost v místnosti, zobrazující údaje na e-ink displeji a odesílající data přes protokol ZigBee/Wi-Fi do domácí brány. Plánovaná sériová výroba: 10 000 kusů ročně.
+* **Aplikace B – Automatická balicí linka:** Průmyslová linka ve výrobní hale. Obsahuje 28 optických snímačů, 14 pneumatických válců, 3 dopravníkové pásy s asynchronními motory a bezpečnostní světelnou závoru. Vyžaduje se nepřetržitý provoz 24/7 a snadná údržba podnikovým elektrikářem.
+* **Aplikace C – Kontrolní stanice optické jakosti svarů:** Pracoviště se 2 vysokorychlostními průmyslovými GigE kamerami snímajícími svary na karoserii automobilu. Snímky v rozlišení 4K jsou analyzovány neuronovou sítí v reálném čase, vady jsou označeny a ukládány do podnikové relační databáze (SQL / MES).
+
+---
+
+#### Váš úkol: Rozhodovací matice
+
+| Kritérium hodnocení | Vzorová aplikace 0 (Vjezdová závora - VZOR) | Aplikace A (Pokojový termostat) | Aplikace B (Balicí linka) | Aplikace C (Kamerová kontrola svarů) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Doporučená platforma** *(MCU / PLC / iPC)* | **Programovatelné relé / kompaktní PLC** *(např. Siemens LOGO!, Eaton easyE4)* | `MCU / Embedded SoC` *(např. ESP32, STM32, nRF52)* | `Modulární PLC` *(např. Siemens S7-1200/1500, Beckhoff, PLC21)* | `Průmyslové PC (iPC)` *(s dedikovanou GPU / AI akcelerátorem)* |
+| **Pořizovací cena HW na 1 kus** *(nízká < 500 Kč / střední 5–30 tis. Kč / vysoká > 500 tis. Kč)* | **Střední** *(cca 3 500 – 6 000 Kč)* | `Nízká` *(cca 150 – 400 Kč při masové výrobně)* | `Střední` *(cca 15 000 – 45 000 Kč dle I/O)* | `Vysoká` *(cca 60 000 – 120 000+ Kč)* |
+| **Primární programovací jazyk** *(C/C++/MicroPython vs. IEC 61131-3 ST/LAD vs. Python/C#/C++ pod OS)* | **FBD / LAD** *(grafické funkční bloky nebo liniové schéma dle IEC 61131-3)* | `C / C++` *(případně MicroPython / ESP-IDF / FreeRTOS)* | `LAD / ST / FBD` *(vyžadován standard IEC 61131-3)* | `Python / C++ / C#` *(frameworky OpenCV, PyTorch/TensorFlow, SQL)* |
+| **Klíčový technický argument pro volbu** *(např. spotřeba, determinismus, grafický výkon)* | **Montáž přímo na DIN lištu v rozváděči, integrovaný displej pro nastavení časovačů přímo na místě, robustní reléové výstupy pro motor a semafor, napájení 24 V DC / 230 V AC bez nutnosti vývoje vlastního plošného spoje.** | `Extrémně nízká spotřeba energie (deep sleep pro bateriový provoz), miniaturní rozměry, integrované bezdrátové rozhraní (Wi-Fi/ZigBee) a velmi nízká jednotková cena při velké sérii (10k ks/rok).` | `Vysoký determinismus a spolehlivost v náročném rušivém prostředí, snadná diagnóza chyby elektrikářem (výměna modulů za chodu/plug&play), průmyslová certifikace pro provoz 24/7.` | `Obrovský výpočetní a grafický výkon pro zpracování obrazu v 4K a běh neuronových sítí v reálném čase, vysokorychlostní rozhraní (GigE), přímá konektivita do SQL/MES databází.` |
+| **Hlavní riziko při volbě špatné platformy** *(proč by neuspěly ostatní dvě varianty)* | **MCU:** Nutnost vývoje vlastní desky, nízká odolnost vůči venkovnímu rušení a obtížný servis údržbou.<br>**iPC:** Zbytečně extrémní cena (> 30 tis. Kč), dlouhý start po výpadku napájení a vysoká spotřeba. | **PLC:** Obrovské fyzické rozměry, vysoká spotřeba (nemožnost běhu na baterii), vysoká cena (nerentabilní pro sérii).<br>**iPC:** Nerealizovatelné pro přenosný bateriový přístroj z důvodu rozměrů, příkonu a ceny. | **MCU:** Nízká odolnost vůči prachu/EMC rušení v hale, složitý servis neumožňující rychlou výměnu bloku údržbou.<br>**iPC:** Vyšší náchylnost k pádům OS pro sekvenční řízení, delší bootování, zbytečně složité pro logiku válců a senzorů. | **MCU:** Nedostatečná RAM a výpočetní kapacita pro 4K obraz a AI model.<br>**PLC:** Neschopnost zpracovávat vysokosnímkové video, chybějící AI akcelerace a omezená práce s pokročilými databázemi. |
+
+----------------------------------------------------------------
