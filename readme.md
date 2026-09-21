@@ -318,4 +318,11 @@ Jako vedoucí inženýr jste převzal projekt po nezkušeném brigádníkovi, kt
   * **Náhrada řídicí jednotky:** `Průmyslové programovatelné relé nebo kompaktní PLC s montáží na DIN lištu, s napájením 24 V DC a galvanicky oddělenými vstupy/výstupy v prachotěsném rozváděči IP65 (např. Siemens LOGO! 24CE nebo Eaton easyE4).`[cite: 6]
   * **Náhrada napájecího zdroje:** `Certifikovaný stabilizovaný průmyslový spínaný zdroj 24 V DC na DIN lištu s ochranou proti přetížení, zkratu a přepětí (např. MEAN WELL řada NDR nebo HDR).`[cite: 6]
   * **Způsob zapojení bezpečnostního okruhu (Safety): Jak musí být podle norem zapojeno tlačítko Emergency Stop (E-Stop)? Smí být spoléháno pouze na software mikrokontroléru? Zdůvodněte:** `Nesmí se spoléhat pouze na software! Tlačítko E-Stop musí být bezpečnostní (dvoukanálové, bezpečnostní rozpínací kontakty NC) zapojené do hardwarového bezpečnostního relé (Safety Relay, např. Sick, Pilz) nebo bezpečnostního PLC. Toto relé při stisku E-Stopu hardwarově a okamžitě odpojí napájení akčních členů (stykačů/ventilů) bez ohledu na stav jakéhokoliv softwaru či mikrokontroléru.`[cite: 6]
+----
+
+Zde je doplněná bonusová otázka k úloze 5, zpracovaná v čistém formátu Markdown a graficky navazující na předchozí úkoly:
+
+* **🌟 Bonusová otázka k úloze 5:** Proč hobby reléové moduly s optočleny určené pro Arduino v průmyslovém rozváděči často shoří nebo způsobí trvalé sepnutí zátěže (tzv. přivaření kontaktů), i když jmenovitý proud relé je 10 A a cívka stykače odebírá jen 0,5 A?
+  * Odpověď: `Jmenovitý proud 10 A u hobby relé platí pro čistě odporovou zátěž (kategorie AC-1). Cívka stykače je však silně indukční zátěž (kategorie AC-15), která při spínání a zejména při rozpínání vytváří obrovské indukční napěťové špičky (až tisíce voltů) a při zapnutí vysoký záběrný proud. Tento elektrický oblouk na nekvalitních kontaktech hobby relé roztaví materiál kontaktů a způsobí jejich fyzické přivaření ("spečení") k sobě. Levná hobby relé navíc nemají dostatečné izolační vzdálenosti (air/creepage distance) ani zhášecí členy (RC členy / varistory) pro průmyslová napětí.`
+
 
