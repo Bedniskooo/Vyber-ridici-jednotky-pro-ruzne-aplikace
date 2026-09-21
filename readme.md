@@ -215,3 +215,70 @@ Jste v pozici nezávislého konzultanta automatizace. Tři různí zákazníci p
 
 * **🌟 Bonusová otázka k úloze 3:** Co je to tzv. **SoftPLC** a jak umožňuje průmyslovému PC (iPC) kombinovat výhody operačního systému Windows/Linux a deterministického řízení reálného času v jediném fyzickém počítači?
   * Odpověď: `SoftPLC je softwarové řešení, které emuluje funkci klasického hardwarového PLC přímo na průmyslovém PC (např. TwinCAT od Beckhoff, CODESYS). Pomocí speciálního hypervizoru nebo real-time rozšíření (RTOS) vyhradí jedno nebo více procesorových jader výhradně pro deterministický běh řídicího programu s přesným časováním (Hard Real-Time). Zbývající jádra procesoru obsluhují běžný OS (Windows/Linux), na kterém běžně běží databáze, vizualizace (HMI) nebo analytika, aniž by docházelo k ovlivnění nebo zpoždění kritického řízení procesu.`
+ 
+-------------------------------------------------------------------
+
+
+### 4. Návrh a konfigurace řídicí jednotky pro čerpací stanici
+
+*Časová dotace: 25–30 minut | ⭐ Klasifikovaná inženýrská úloha na známky*
+
+Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení pro obecní přečerpávací stanici odpadních vod.
+
+#### Zadání technologického procesu a periferií:
+
+* **Snímače a vstupy:**
+  * 3× plovákový hladinový spínač (havarijní spodní hladina proti chodu nasucho, zapínací hladina, havarijní přepad) – bezpotenciálový kontakt spínající 24 V DC.
+  * 1× hydrostatická ponorná sonda výšky hladiny v jímce – výstupní signál 4–20 mA.
+  * 1× termistorové ochranné relé přehřátí motoru čerpadla – poruchový kontakt 24 V DC.
+* **Akční členy a výstupy:**
+  * 2× stykač pro spouštění motorů hlavního a záložního čerpadla – spínání cívky stykače 230 V AC / 0,5 A.
+  * 1× opticko-akustický výstražný maják – napájení 24 V DC / 0,3 A.
+  * 1× řízení otáček frekvenčního měniče hlavního čerpadla – analogový signál 0–10 V.
+* **Komunikace a přenos dat:**
+  * Odesílání údajů o hladině a poruchách na dispečink vodáren (Ethernet / Modbus TCP nebo GSM/LTE modul).
+* **Provozní podmínky:**
+  * Venkovní nekrytý terén, rozváděč vystavený dešti, prachu a teplotám v rozmezí -20 °C až +45 °C.
+
+---
+
+#### 1. Sestavte tabulku I/O bilance a spočtěte celkový počet signálů. Připočtěte rezervu min. 20 % pro budoucí rozšíření:
+
+| Typ signálu | Požadavek aplikace (kusy) | Popis signálů v aplikaci | Počet po započtení rezervy (+20 %) |
+| :--- | :--- | :--- | :--- |
+| **Digitální vstup (DI)** | `4` | `3× plovák (24 V DC), 1× porucha termistoru (24 V DC)` | `5` *(po zaokrouhlení nahoru)* |
+| **Digitální výstup (DO) – reléový** | `2` | `2× stykač čerpadla (spínání 230 V AC / 0,5 A)` | `3` *(po zaokrouhlení nahoru)* |
+| **Digitální výstup (DO) – tranzistorový** | `1` | `1× opticko-akustický maják (24 V DC / 0,3 A)` | `2` *(po zaokrouhlení nahoru)* |
+| **Analogový vstup (AI)** | `1` | `1× hydrostatická sonda hladiny (4–20 mA)` | `2` *(po zaokrouhlení nahoru)* |
+| **Analogový výstup (AO)** | `1` | `1× řízení frekvenčního měniče (0–10 V)` | `2` *(po zaokrouhlení nahoru)* |
+
+---
+
+#### 2. Výběr konkrétního hardwaru z katalogu výrobce:
+
+* Navrhněte konkrétní přístroj z praxe *(např. Siemens LOGO! 24RCE + rozšiřující moduly, Siemens S7-1200 CPU 1212C/1214C DC/DC/RLY, Schneider Modicon M221, Eaton easyE4-UC-12RC1, WAGO 750, případně průmyslový IoT kontrolér typu UniPi Neuron)*.
+* Uveďte:
+  * **Výrobce a přesný model CPU:** `Siemens SIMATIC S7-1200, CPU 1212C DC/DC/Rly`
+  * **Objednací kód (Part Number / Order Code):** `6ES7212-1HE40-0XB0`
+  * **Rozšiřující moduly (pokud jsou nutné pro AI 4–20 mA nebo AO 0–10 V):** `1× Signal Board SB 1232 AQ 1x12 bit (6ES7232-4HA30-0XB0) pro analogový výstup 0–10 V a 1× měřicí odpor 250 Ω na integrovaný AI kanál pro konverzi 4–20 mA na 0–10 V (případně analogový modul SM 1231 AI 4xRTD/TC/mA).`
+  * **Napájecí napětí zvolené jednotky:** `24 V DC`
+  * **Jak je vyřešeno odesílání dat na dispečink:** `Integrovaný Ethernet port (PROFINET / Modbus TCP) vyvedený do průmyslového 4G/LTE routeru (např. Teltonika RUT241) pro přenos dat na dispečink vodáren.`
+  * **Odkaz na technický list (datasheet):** `https://support.industry.siemens.com/cs/ww/en/pv/6ES7212-1HE40-0XB0/pi`
+  * **Odkazy na další použité zdroje:** `https://mall.industry.siemens.com/`
+
+---
+
+#### 3. Technické ověření z datasheetu:
+
+* **Zvládá zvolená jednotka garantovaný provoz při -20 °C? Doložte údaj z datasheetu:** `Ano. Dle oficiálního datasheetu Siemens S7-1200 CPU 1212C je rozsah provozních teplot při vodorovné montáži -20 °C až +60 °C (bez kondenzace).`
+* **Jakým způsobem spínáte cívku stykače 230 V AC (reléový výstup jednotky přímo, nebo přes pomocné mezilehlé relé)? Zdůvodnění:** `Doporučuje se použít pomocné mezilehlé relé (např. Finder 24 V DC / 230 V AC). Důvodem je ochrana interních reléových kontaktů PLC před proudovými špičkami při spínání indukční zátěže (cívky stykače) a snadná/levná výměna paticového relé v případě jeho opotřebení bez nutnosti měnit celé PLC.`
+
+---
+
+#### 4. Krytí rozváděče:
+
+* **Jaké minimální krytí IP skříně zvolíte? Jak v rozváděči zajistíte provoz v mrazech -20 °C a v letních vedrech?**
+  * **Zvolené krytí rozváděče:** `Minimálně IP65 (prachotěsné a odolné vůči tryskající vodě / dešti).`
+  * **Teplotní management skříně:** `Pro mrazy (-20 °C): instalace topného tělesa s termostatem do rozváděče (např. Rittal 50–100 W). Pro letní vedra (+45 °C): instalace venkovního rozváděče s dvojitou stěnou / stříškou proti přímému slunci a použií větrací mřížky s filtrem a ventilátorem (případně polovodičového chladicího agregátu / klimatizace), řízeného chladicím termostatem.`
+
+----------------------------------------------------------------
