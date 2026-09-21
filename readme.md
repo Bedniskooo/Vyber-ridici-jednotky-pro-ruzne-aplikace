@@ -129,3 +129,51 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 | **Napájení** | Běžná síťová zásuvka ($230\text{ V}$ AC), interní ATX zdroj | Širokorozsahové stejnosměrné napájení ($12\text{--}24\text{ V}$ DC) s ochranou proti přepětí |
 | **Vibrace** | Nízká odolnost (standardní sloty a konektory) | Vysoká odolnost (pájené komponenty, bezkabelové propojení, SSD) |
 | **Konektory** | Klasické (USB, RJ45 bez zajištění) | Průmyslové konektory se šroubovacím zajištěním (např. M12, uzamykatelné D-Sub) |
+
+### 2. Parametry, paměti a provozní odolnost (IP krytí)
+
+-----------------------------------------------------------------------------------------------------------
+
+1. **Typy pamětí v řídicích jednotkách:**
+
+   * Doplňte porovnání pamětí z hlediska stálosti dat a rychlosti:
+     * **RAM:**
+       * Je volatilní (energeticky závislá)? `Ano`
+       * Rychlost zápisu: `Velmi vysoká (v řádu nanosekund)`
+       * K čemu se využívá v PLC/MCU: `Ukládání pracovních proměnných, spuštěný program, zásobník (stack), vyrovnávací paměť (buffer)`
+     * **Flash (ROM):**
+       * Je volatilní? `Ne`
+       * K čemu se využívá v PLC/MCU: `Uložení řídicího programu (firmware), konstanta a konfiguračních dat`
+     * **EEPROM / NVRAM:**
+       * Je volatilní? `Ne`
+       * K čemu se využívá v PLC/MCU: `Ukládání kalibračních dat, nastavení systému a remanentních (retained) proměnných`
+   * *Otázka z praxe:* Kam se v průmyslovém PLC ukládají aktuální provozní proměnné (např. čítače vyrobených kusů nebo motohodiny), aby se při nečekaném výpadku napájení neztratily (tzv. remanentní / retain data)?
+     * Odpověď: `Do paměti NVRAM / FRAM nebo do RAM zálohované baterií či superkondenzátorem (a při vypnutí přenesené do EEPROM/Flash).`
+
+2. **Reálný čas a determinismus (Hard vs. Soft Real-Time):**
+
+   * Proč pro reakci na nouzové zastavení lisu (požadavek reakce do 5 ms) použijeme PLC či mikrokontrolér s RTOS, a nikoliv běžné Raspberry Pi s operačním systémem Raspberry Pi OS (standardní Linux)?
+     * Odpověď: `PLC s RTOS garantuje determinismus (přesně definovaný maximální čas reakce bez zpoždění), zatímco běžný Linux na Raspberry Pi není deterministický (může dojít ke zpoždění kvůli plánovači úloh nebo obsluze přerušení).`
+
+3. **Odolnost vůči vlivům prostředí a dešifrování kódu IP:**
+
+   * Dešifrujte kód **IP68**:
+     * První číslice (6): `Úplná ochrana před dotykem a prachotěsnost (prach nesmí vniknout vůbec)`
+     * Druhá číslice (8): `Ochrana při trvalém ponoření do vody za podmínek určených výrobcem`
+   * Jaké minimální krytí IP musí mít rozváděč umístěný ve venkovním nekrytém prostředí, kde na něj přímo dopadá déšť a fouká polétavý prach?
+     * Označte správnou volbu: `[ ] IP20 | [ ] IP44 | [x] IP65 | [ ] IP00`
+     * Zdůvodnění: `IP65 zajišťuje úplnou prachotěsnost (číslo 6) a ochranu proti tryskající vodě ze všech směrů / dešti (číslo 5).`
+
+4. **Konstrukční rozdíly kancelářského PC vs. průmyslového iPC:**
+
+   * Vyberte a doplňte hlavní odlišnosti:
+     * **Chlazení:**
+       * Kancelářské PC: `Aktivní (ventilátory, které nasávají prach)`
+       * vs. iPC: `Pasivní (masivní hliníkové pasivy, bezventilátorové provedení - Fanless)`
+     * **Napájecí napětí a filtrace:**
+       * Kancelářské PC: `230 V AC (standardní ATX zdroj)`
+       * vs. iPC: `24 V DC (průmyslový standard) s ochranou proti přepětí a přepólování`
+     * Odolnost proti otřesům a vibracím: `iPC používá SSD/eMMC namísto HDD, zpevněné šasi a odpružené uložení komponent`
+     * **Způsob montáže:**
+       * Kancelářské PC: na stůl/pod stůl
+       * vs. iPC: `Na DIN lištu do rozváděče nebo VESA/panelová montáž`
