@@ -177,3 +177,10 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
      * **Způsob montáže:**
        * Kancelářské PC: na stůl/pod stůl
        * vs. iPC: `Na DIN lištu do rozváděče nebo VESA/panelová montáž`
+      
+
+-----------------------------------------------------------------
+* **🌟 Bonusová otázka k úloze 2:** Co označuje doplňkové písmeno **K** v kódu krytí **IP69K** a v jakém průmyslovém odvětví je toto krytí bezpodmínečně vyžadováno?
+  * Odpověď: `Písmeno K označuje ochranu proti vysokotlaké a vysokoteplotní proudící vodě (ostřikování tlakem až 10 MPa při teplotě do 80 °C). Bezpodmínečně se vyžaduje v potravinářském a farmaceutickém průmyslu (a také na vozidlech/zemědělské technice), kde probíhá pravidelné intenzivní čištění a dezinfekce tlakovou vodou.`
+
+```
