@@ -288,9 +288,9 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
   * Odpověď: Proudová smyčka 4–20 mA je odolná vůči úbytku napětí na dlouhých kabelech a vůči elektromagnetickému rušení z motorů/frekvenčních měničů. Zároveň umožňuje detekci přerušení vodiče (živá nula: hodnota 0 mA = porucha/přetržený kabel). Napěťový signál 0–10 V trpí úbytky napětí a rušením. Ultrazvukový senzor se nepoužívá při vzniku pěny, protože pěna pohlcuje nebo rozptyluje ultrazvukové vlny, což vede ke ztrátě odrazu signálu nebo falešným měřením (senzor změří výšku pěny namísto skutečné hladiny kapaliny).
 
 --------------------------------------------------------------
+---
 
-
-### 5. Technický audit a oponentura nevhodného návrhu
+# 5. Technický audit a oponentura nevhodného návrhu
 
 
 Jako vedoucí inženýr jste převzal projekt po nezkušeném brigádníkovi, který navrhl řízení automatizovaného tvářecího a lisovacího stroje v prašné kovářské dílně následovně:[cite: 6]
